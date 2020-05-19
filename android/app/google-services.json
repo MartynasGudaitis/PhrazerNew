@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768797491719",
+    "firebase_url": "https://phrazer-new.firebaseio.com",
+    "project_id": "phrazer-new",
+    "storage_bucket": "phrazer-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768797491719:android:0884f2be4590f23a9060a2",
+        "android_client_info": {
+          "package_name": "com.example.phrazer_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768797491719-hecp4tb5vt2akqp58q5a65sd35v5j3o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.phrazer_new",
+            "certificate_hash": "16c697b544676672fbffea909d5ff6d7441afa57"
+          }
+        },
+        {
+          "client_id": "768797491719-10ov68g4qvnl4b2v8f63kjuooi4mvc6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvk10Ad3Amm5uATjvc6imjdx9J7E0fORY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768797491719-10ov68g4qvnl4b2v8f63kjuooi4mvc6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
