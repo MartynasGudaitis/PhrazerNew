@@ -29,6 +29,7 @@ dependencies:
   cloud_firestore: ^0.13.5
   provider: ^4.0.5+1
   uuid: ^2.0.4
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,7 @@ flutter:
     - assets/images/phrazer_light_grey.png
     - assets/images/phrazer_white.png
     - assets/images/phrazer.png
+    - assets/images/not_found.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

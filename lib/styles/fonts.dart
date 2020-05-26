@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'colors.dart';
+
 const ExtraLargeTextSize = 50.0;
 const LargeTextSize = 30.0;
 const MediumTextSize = 20.0;
@@ -26,3 +28,6 @@ const SubtitleTextStyle = TextStyle(
 const Body1TextStyle = TextStyle(
   fontSize: SmallTextSize,
 );
+
+const Body2TextStyle =
+    TextStyle(color: LightGray, fontSize: 14.0, fontWeight: FontWeight.bold);

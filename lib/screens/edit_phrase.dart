@@ -59,7 +59,6 @@ class _EditPhraseState extends State<EditPhrase> {
     final phraseProvider = Provider.of<PhraseProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Green,
         title: Text(pageTitle),
         actions: <Widget>[
           FlatButton(

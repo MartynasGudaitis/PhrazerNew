@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:phrazer_new/models/category.dart';
 import 'package:phrazer_new/models/phrase.dart';
+import 'package:phrazer_new/providers/category_provider.dart';
 
 class FirestoreService {
   Firestore _db = Firestore.instance;
@@ -35,7 +36,11 @@ class FirestoreService {
   Stream<List<Category>> getCategories() {
     return _db.collection('categories').snapshots().map((snapshots) => snapshots
         .documents
-        .map((document) => Category.fromFirestore(document.data))
+        .map((document) => Category.documentsFromFirestore(document.data))
         .toList());
+  }
+
+  Future<void> removeCategory(String categoryId) {
+    return _db.collection('categories').document(categoryId).delete();
   }
 }

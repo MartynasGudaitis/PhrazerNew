@@ -27,8 +27,21 @@ class CategoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  loadValues(Category category) {
+    _name = category.name;
+    _icon = category.icon;
+    _categoryId = category.categoryId;
+  }
+
   saveCategory() {
-    var newCategory = Category(name: name, icon: icon, categoryId: uuid.v4());
+    var newCategory = Category(
+        name: name,
+        icon: icon,
+        categoryId: (_categoryId == null) ? uuid.v4() : _categoryId);
     firestoreService.saveCategory(newCategory);
+  }
+
+  removeCategory(String categoryId) {
+    firestoreService.removeCategory(categoryId);
   }
 }

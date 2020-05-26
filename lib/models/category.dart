@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Category {
-  final String categoryId;
-  final String name;
-  final String icon;
+  String categoryId;
+  String name;
+  String icon;
 
   Category({this.categoryId, this.name, this.icon});
 
@@ -9,7 +11,7 @@ class Category {
     return {'categoryId': categoryId, 'name': name, 'icon': icon};
   }
 
-  Category.fromFirestore(Map<String, dynamic> firestore)
+  Category.documentsFromFirestore(Map<String, dynamic> firestore)
       : categoryId = firestore['categoryId'],
         name = firestore['name'],
         icon = firestore['icon'];

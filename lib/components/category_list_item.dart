@@ -26,7 +26,7 @@ class CategoryListItem extends StatelessWidget {
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
                   _name,
-                  style: TextStyle(color: Green),
+                  style: TextStyle(color: (_status) ? LightGray : Green),
                 ),
               )
             : Container(),
@@ -34,11 +34,3 @@ class CategoryListItem extends StatelessWidget {
     );
   }
 }
-
-/*
-  FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () {},
-      backgroundColor: Orange,
-    );
- */

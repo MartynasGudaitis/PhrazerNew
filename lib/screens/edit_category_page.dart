@@ -1,24 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:phrazer_new/components/category_delete_dialog.dart';
+import 'package:phrazer_new/components/category_form_fields.dart';
 import 'package:phrazer_new/components/category_list_item.dart';
+import 'package:phrazer_new/components/toast_message.dart';
+import 'package:phrazer_new/models/category.dart';
 import 'package:phrazer_new/models/category_icon.dart';
 import 'package:phrazer_new/providers/category_provider.dart';
 import 'package:phrazer_new/styles/colors.dart';
 import 'package:provider/provider.dart';
 
 class EditCategory extends StatefulWidget {
-  const EditCategory({Key key}) : super(key: key);
+  final Category category;
+
+  EditCategory({Category this.category});
 
   @override
   _EditCategoryState createState() => _EditCategoryState();
 }
 
 class _EditCategoryState extends State<EditCategory> {
-  String _iconName = 'priority_high';
-  bool _active = false;
+  String _iconName;
+  String toastMessage = 'Category successfully created';
+  bool active = false;
+  // Controllers
+  final nameController = TextEditingController();
+
+  // Need to add icon controller probably
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    // Need to add dispose for iconController
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    if (widget.category == null) {
+      // New Category
+      nameController.text = '';
+      _iconName = 'priority_high';
+      //Update State
+      new Future.delayed(Duration.zero, () {
+        final categoryProvider =
+            Provider.of<CategoryProvider>(context, listen: false);
+        categoryProvider.loadValues(Category());
+      });
+    } else {
+      // Existing Category
+      active = true;
+      // Update controllers
+      nameController.text = widget.category.name;
+      _iconName = widget.category.icon;
+      //Update State
+      new Future.delayed(Duration.zero, () {
+        final categoryProvider =
+            Provider.of<CategoryProvider>(context, listen: false);
+        categoryProvider.loadValues(widget.category);
+      });
+      toastMessage = 'Category successfully updated';
+    }
+    super.initState();
+  }
 
   void _handleTap(String value) {
     setState(() {
-      _active = true;
+      active = true;
       _iconName = value;
     });
   }
@@ -26,19 +73,14 @@ class _EditCategoryState extends State<EditCategory> {
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Green,
-          title: Text('Edit Category'),
+          title: Text(
+              (widget.category == null) ? 'New Category' : 'Edit Category'),
           actions: <Widget>[
-            FlatButton(
-              child: Icon(Icons.check),
-              textColor: Colors.white,
-              onPressed: () {
-                categoryProvider.saveCategory();
-                Navigator.of(context).pop();
-              },
-            )
+            buildCategoryFormSaveButton(
+                context, toastMessage, categoryProvider, formKey, active),
           ],
         ),
         body: Container(
@@ -48,35 +90,23 @@ class _EditCategoryState extends State<EditCategory> {
             slivers: <Widget>[
               SliverToBoxAdapter(
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20.0),
-                  child: Row(
-                    children: <Widget>[
-                      CategoryListItem(
-                          category_icons
-                              .singleWhere((e) => e.name == _iconName)
-                              .icon,
-                          _active),
-                      SizedBox(width: 20.0),
-                      Flexible(
-                        child: TextField(
-                          style: TextStyle(color: LightGray),
-                          decoration: InputDecoration(
-                            hintText: 'Name',
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Green),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Green),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            categoryProvider.changeName(value);
-                          },
-                        ),
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    child: Form(
+                      key: formKey,
+                      child: Row(
+                        children: <Widget>[
+                          //CategoryIconField(),
+                          CategoryListItem(
+                              category_icons
+                                  .singleWhere((e) => e.name == _iconName)
+                                  .icon,
+                              active),
+                          SizedBox(width: 20.0),
+                          buildCategoryFormInputField(
+                              nameController, 'Name', categoryProvider),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    )),
               ),
               SliverToBoxAdapter(
                 child: Container(
@@ -84,10 +114,7 @@ class _EditCategoryState extends State<EditCategory> {
                   child: Center(
                     child: Text(
                       'choose the icon'.toUpperCase(),
-                      style: TextStyle(
-                          color: LightGray,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.body2,
                     ),
                   ),
                 ),
@@ -113,13 +140,17 @@ class _EditCategoryState extends State<EditCategory> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.delete,
-            color: Green,
-          ),
-          onPressed: () {},
-          backgroundColor: LightGreen,
-        ));
+        floatingActionButton: (widget.category != null)
+            ? FloatingActionButton(
+                backgroundColor: LightGray,
+                child: Icon(
+                  Icons.delete,
+                  color: Green,
+                ),
+                onPressed: () {
+                  categoryDeleteDialog(context, widget.category.categoryId);
+                },
+              )
+            : null);
   }
 }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:phrazer_new/components/category_list_item.dart';
+import 'package:phrazer_new/components/phrase_delete_dialog.dart';
+import 'package:phrazer_new/components/phrase_form_fields.dart';
+import 'package:phrazer_new/models/category.dart';
+import 'package:phrazer_new/models/category_icon.dart';
 import 'package:phrazer_new/providers/phrase_provider.dart';
 import 'package:phrazer_new/styles/colors.dart';
 import 'package:provider/provider.dart';
@@ -6,9 +11,10 @@ import 'package:phrazer_new/models/phrase.dart';
 
 class EditPhrase extends StatefulWidget {
   final Phrase phrase;
+  final String categoryId;
 
   // Constructor
-  EditPhrase([this.phrase]);
+  EditPhrase({Phrase this.phrase, String this.categoryId});
 
   @override
   _EditPhraseState createState() => _EditPhraseState();
@@ -17,6 +23,8 @@ class EditPhrase extends StatefulWidget {
 class _EditPhraseState extends State<EditPhrase> {
   final phraseController = TextEditingController();
   final translationController = TextEditingController();
+  bool newInstance = true;
+  String toastMessage = 'Phrase successfully saved';
   String pageTitle;
 
   @override
@@ -37,9 +45,13 @@ class _EditPhraseState extends State<EditPhrase> {
         final phraseProvider =
             Provider.of<PhraseProvider>(context, listen: false);
         phraseProvider.loadValues(Phrase());
+        phraseProvider.changeCategoryId(widget.categoryId);
       });
+      // Set category ID
     } else {
       // Existing phrase
+      newInstance = false;
+      toastMessage = 'Phrase successfully updated';
       // Update controllers
       phraseController.text = widget.phrase.phrase;
       translationController.text = widget.phrase.translation;
@@ -49,6 +61,7 @@ class _EditPhraseState extends State<EditPhrase> {
         final phraseProvider =
             Provider.of<PhraseProvider>(context, listen: false);
         phraseProvider.loadValues(widget.phrase);
+        phraseProvider.changeCategoryId(widget.phrase.categoryId);
       });
     }
     super.initState();
@@ -57,19 +70,14 @@ class _EditPhraseState extends State<EditPhrase> {
   @override
   Widget build(BuildContext context) {
     final phraseProvider = Provider.of<PhraseProvider>(context);
+    final categoryProvider = Provider.of<List<Category>>(context);
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Green,
         title: Text(pageTitle),
         actions: <Widget>[
-          FlatButton(
-            child: Icon(Icons.check),
-            textColor: Colors.white,
-            onPressed: () {
-              phraseProvider.savePhrase();
-              Navigator.of(context).pop();
-            },
-          )
+          buildPhraseFormSaveButton(formKey, phraseProvider, context,
+              toastMessage, newInstance, true),
         ],
       ),
       body: Container(
@@ -77,43 +85,48 @@ class _EditPhraseState extends State<EditPhrase> {
         padding: EdgeInsets.all(40.0),
         child: Column(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 100.0, bottom: 25.0),
-              child: TextField(
-                controller: phraseController,
-                style: TextStyle(color: LightGray),
-                decoration: InputDecoration(hintText: 'Phrase'),
-                onChanged: (value) {
-                  phraseProvider.changePhrase(value);
-                },
-              ),
+            Text(
+              'Category'.toUpperCase(),
+              style: Theme.of(context).textTheme.body2,
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 25.0),
-              child: TextField(
-                controller: translationController,
-                style: TextStyle(color: LightGray),
-                decoration: InputDecoration(hintText: 'Translation'),
-                onChanged: (value) {
-                  phraseProvider.changeTranslation(value);
-                },
-              ),
+              margin: EdgeInsets.only(top: 12, bottom: 12),
+              child: CategoryListItem(
+                  category_icons
+                      .singleWhere((e) =>
+                          e.name ==
+                          categoryProvider
+                              .singleWhere((e) => (newInstance)
+                                  ? e.categoryId == widget.categoryId
+                                  : e.categoryId == widget.phrase.categoryId)
+                              .icon)
+                      .icon,
+                  false,
+                  categoryProvider
+                      .singleWhere((e) => (newInstance)
+                          ? e.categoryId == widget.categoryId
+                          : e.categoryId == widget.phrase.categoryId)
+                      .name),
             ),
-            Container(
-              child: RaisedButton(
-                child: Text('Save'),
-                textColor: LightGray,
-                color: Orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                padding: EdgeInsets.only(
-                    left: 45.0, right: 45.0, top: 15.0, bottom: 15.0),
-                onPressed: () {
-                  phraseProvider.savePhrase();
-                  Navigator.of(context).pop();
-                },
-              ),
+            Text(
+              'Type in your'.toUpperCase(),
+              style: Theme.of(context).textTheme.body2,
+            ),
+            Form(
+              key: formKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 42.0),
+                    buildPhraseFormInputField(
+                        phraseController, 'Phrase', phraseProvider),
+                    SizedBox(height: 14.0),
+                    buildPhraseFormInputField(
+                        translationController, 'Translation', phraseProvider),
+                    SizedBox(height: 14.0),
+                    buildPhraseFormSaveButton(formKey, phraseProvider, context,
+                        toastMessage, newInstance, false),
+                  ]),
             ),
           ],
         ),
@@ -125,8 +138,7 @@ class _EditPhraseState extends State<EditPhrase> {
                 color: Green,
               ),
               onPressed: () {
-                phraseProvider.removePhrase(widget.phrase.phraseId);
-                Navigator.of(context).pop();
+                phraseDeleteDialog(context, widget.phrase.phraseId);
               },
               backgroundColor: LightGreen,
             )

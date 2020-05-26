@@ -4,7 +4,9 @@ import 'package:phrazer_new/providers/category_provider.dart';
 import 'package:phrazer_new/providers/phrase_provider.dart';
 import 'package:phrazer_new/screens/welcome_page.dart';
 import 'package:phrazer_new/services/firestore_service.dart';
+import 'package:phrazer_new/styles/app_bar.dart';
 import 'package:phrazer_new/styles/buttons.dart';
+import 'package:phrazer_new/styles/colors.dart';
 import 'package:phrazer_new/styles/input_fields.dart';
 import 'package:provider/provider.dart';
 import './styles/fonts.dart';
@@ -27,12 +29,14 @@ class MyApp extends StatelessWidget {
         title: 'Phrazer',
         theme: ThemeData(
           fontFamily: 'Arial',
+          appBarTheme: AppBarThemeStyle,
           textTheme: TextTheme(
             headline: HeadlineTextStyle,
             subhead: SubheadTextStyle,
             title: TitleTextStyle,
             subtitle: SubtitleTextStyle,
             body1: Body1TextStyle,
+            body2: Body2TextStyle,
           ),
           inputDecorationTheme: InputDecorationThemeStyle,
           buttonTheme: ButtomThemeStyle,

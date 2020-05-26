@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phrazer_new/components/create_float_btn.dart';
-import 'package:phrazer_new/components/phrases_list.dart';
 import 'package:phrazer_new/models/category.dart';
-import 'package:phrazer_new/screens/edit_phrase_page.dart';
 import 'package:phrazer_new/screens/phrases_page.dart';
 import 'package:provider/provider.dart';
 import '../sign_in.dart';
@@ -17,7 +15,6 @@ class HomePage extends StatelessWidget {
     final categories = Provider.of<List<Category>>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Green,
           title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -58,12 +55,8 @@ class HomePage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Container(
                   padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
-                  child: Text(
-                    'My Categories',
-                    style: Theme.of(context).textTheme.body1.merge(TextStyle(
-                          color: Colors.white,
-                        )),
-                  ),
+                  child: Text('My Categories'.toUpperCase(),
+                      style: Theme.of(context).textTheme.body2),
                 ),
               ),
               (categories != null)
@@ -81,7 +74,9 @@ class HomePage extends StatelessWidget {
                                 categories[index].name, categories[index].icon),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PhrasesPage()));
+                                  builder: (context) => PhrasesPage(
+                                      categoryId: categories[index].categoryId,
+                                      title: categories[index].name)));
                             },
                           );
                         },
