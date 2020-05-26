@@ -4,6 +4,7 @@ import 'package:phrazer_new/components/not_found.dart';
 import 'package:phrazer_new/components/phrases_list_item.dart';
 import 'package:phrazer_new/models/category.dart';
 import 'package:phrazer_new/models/phrase.dart';
+import 'package:phrazer_new/screens/search_page.dart';
 import 'package:provider/provider.dart';
 import '../sign_in.dart';
 import '../styles/colors.dart';
@@ -49,7 +50,15 @@ class _PhrasesPageState extends State<PhrasesPage> {
             IconButton(
               padding: EdgeInsets.all(12.0),
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SearchPage();
+                    },
+                  ),
+                );
+              },
             ),
             IconButton(
               padding: EdgeInsets.all(12.0),

@@ -3,6 +3,7 @@ import 'package:phrazer_new/styles/colors.dart';
 
 const InputDecorationThemeStyle = InputDecorationTheme(
   labelStyle: TextStyle(color: LightGray),
+  hintStyle: TextStyle(color: LightGray),
   helperStyle: TextStyle(color: LightGray),
   errorStyle: TextStyle(color: Orange),
   contentPadding: EdgeInsets.fromLTRB(25.0, 15.0, 25.0, 15.0),

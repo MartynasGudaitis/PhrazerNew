@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phrazer_new/components/create_float_btn.dart';
 import 'package:phrazer_new/models/category.dart';
 import 'package:phrazer_new/screens/phrases_page.dart';
+import 'package:phrazer_new/screens/search_page.dart';
 import 'package:provider/provider.dart';
 import '../sign_in.dart';
 import '../styles/colors.dart';
@@ -28,7 +29,15 @@ class HomePage extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.all(12.0),
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SearchPage();
+                    },
+                  ),
+                );
+              },
             ),
             FlatButton(
                 padding: EdgeInsets.all(12.0),

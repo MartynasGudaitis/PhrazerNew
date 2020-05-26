@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phrazer_new/components/login_form.dart';
+import 'package:phrazer_new/components/not_selected_dialog.dart';
 import '../styles/colors.dart';
 import '../sign_in.dart';
 import 'home_page.dart';
@@ -9,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,68 +43,43 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.fromLTRB(45.0, 50.0, 45.0, 15.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'E-mail',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(45.0, 15.0, 45.0, 15.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                  ),
-                ),
-              ),
+              logInForm(context, _formKey),
               Container(
                 padding: EdgeInsets.only(top: 20.0),
-                child: Text('you can also sign in with',
+                child: Text('Or try using',
                     textDirection: TextDirection.ltr,
                     style: Theme.of(context)
                         .textTheme
-                        .subhead
+                        .body1
                         .merge(TextStyle(color: Green))),
               ),
               Container(
                 padding: EdgeInsets.only(top: 20.0),
                 child: _signInButton(),
               ),
-              /*
-              Container(
-                padding: EdgeInsets.only(top: 50.0, bottom: 20),
-                child: RaisedButton(
-                  textColor: LightGray,
-                  color: Orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.only(
-                      left: 45.0, right: 45.0, top: 15.0, bottom: 15.0),
-                  child: Text(
-                    'Log In'.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Home()));
-                  },
-                ),
-              ),
-              */
             ],
           )),
     );
   }
 
   Widget _signInButton() {
-    return OutlineButton(
-      highlightedBorderColor: Colors.white,
-      onPressed: () {
+    return GestureDetector(
+      child: Container(
+        padding: EdgeInsets.all(21),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(31),
+          border: Border.all(
+            color: LightGray,
+            width: 2,
+          ),
+        ),
+        child: Image(
+          image: AssetImage("assets/images/google_logo.png"),
+          height: 20.0,
+          width: 20.0,
+        ),
+      ),
+      onTap: () {
         signInWithGoogle().whenComplete(() {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -112,31 +90,6 @@ class _LoginPageState extends State<LoginPage> {
           );
         });
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      highlightElevation: 0,
-      borderSide: BorderSide(color: LightGray, width: 2.0),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(
-                image: AssetImage("assets/images/google_logo.png"),
-                height: 30.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Google',
-                style: Theme.of(context)
-                    .textTheme
-                    .subhead
-                    .merge(TextStyle(color: LightGray)),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
