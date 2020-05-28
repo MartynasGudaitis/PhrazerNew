@@ -4,20 +4,32 @@ import 'package:phrazer_new/providers/phrase_provider.dart';
 import 'package:phrazer_new/screens/home_page.dart';
 import 'package:phrazer_new/styles/colors.dart';
 
+class CreatePhrasePageFieldsValidation {
+  static String validate(String value, String label) {
+    RegExp regExpUpperCase = new RegExp(r'^(?=.*?[A-Z])');
+    RegExp regExpSpecialCharacters = new RegExp(r'^(?=.*[@#\/$&*~])');
+    if (value.isEmpty)
+      return label + ' is required';
+    else if (!regExpUpperCase.hasMatch(value[0]))
+      return label + ' must start with a uppercase letter';
+    else if (regExpSpecialCharacters.hasMatch(value) == true)
+      return label + ' can not contain special characters';
+    else
+      return null;
+  }
+}
+
 Widget buildPhraseFormInputField(
     TextEditingController controller, String label, PhraseProvider provider) {
   return TextFormField(
     cursorColor: Green,
+    textCapitalization: TextCapitalization.sentences,
     decoration: InputDecoration(labelText: label),
     controller: controller,
-    maxLength: 160,
     style: TextStyle(color: LightGray),
-    validator: (String value) {
-      if (value.isEmpty) {
-        return label + ' is Required';
-      }
-      return null;
-    },
+    maxLength: 160,
+    validator: (String value) =>
+        CreatePhrasePageFieldsValidation.validate(value, label),
     onSaved: (String value) {
       (label == 'Phrase')
           ? provider.changePhrase(value)

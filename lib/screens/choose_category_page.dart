@@ -51,7 +51,7 @@ class _ChooseCategoryPageState extends State<ChooseCategoryPage> {
           ],
         ),
         body: Container(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(8.0),
             color: DarkGreen,
             child: CustomScrollView(slivers: <Widget>[
               SliverToBoxAdapter(

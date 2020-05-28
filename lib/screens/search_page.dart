@@ -45,10 +45,7 @@ class _SearchPageState extends State<SearchPage> {
             child: TextField(
               style: TextStyle(color: LightGray),
               decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: LightGray,
-                ),
+                prefixIcon: Icon(Icons.search, color: LightGray,),
                 hintText: 'Search for phrases',
               ),
               onChanged: _onSearch,

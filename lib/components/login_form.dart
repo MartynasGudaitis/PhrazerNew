@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:phrazer_new/styles/colors.dart';
-
 import 'not_selected_dialog.dart';
+
+class LogInFormFieldValidation {
+  static String validatePassword(String value) {
+    Pattern pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    // (?=.*[A-Z]) should contain at least one upper case
+    // (?=.*[a-z]) should contain at least one lower case
+    // (?=.*?[0-9]) should contain at least one digit
+    // (?=.*?[!@#\$&*~]).{8,} should contain at least one Special character
+    RegExp regEx = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'Password is Required';
+    } else {
+      if (!regEx.hasMatch(value))
+        return 'Password does not fit requirements';
+      else
+        return null;
+    }
+  }
+
+  static String validateEmail(String value) {
+    Pattern pattern =
+        r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    RegExp regEx = new RegExp(pattern);
+    if (value.isEmpty) {
+      return 'Email is Required';
+    } else {
+      if (!regEx.hasMatch(value))
+        return 'Please enter a valid Email Address';
+      else
+        return null;
+    }
+  }
+}
 
 Widget logInForm(BuildContext context, GlobalKey<FormState> _formKey) {
   return Form(
@@ -13,17 +46,8 @@ Widget logInForm(BuildContext context, GlobalKey<FormState> _formKey) {
           style: TextStyle(color: LightGray),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(labelText: 'E-mail'),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Email is Required';
-            }
-            if (!RegExp(
-                    r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                .hasMatch(value)) {
-              return 'Please enter a valid email Address';
-            }
-            return null;
-          },
+          validator: (String value) =>
+              LogInFormFieldValidation.validateEmail(value),
         ),
       ),
       Container(
@@ -32,12 +56,8 @@ Widget logInForm(BuildContext context, GlobalKey<FormState> _formKey) {
           style: TextStyle(color: LightGray),
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(labelText: 'Password'),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Password is Required';
-            }
-            return null;
-          },
+          validator: (String value) =>
+              LogInFormFieldValidation.validatePassword(value),
         ),
       ),
       Container(

@@ -19,6 +19,7 @@ phraseDeleteDialog(BuildContext context, String phraseId) {
             child: Text('Yes', style: TextStyle(color: LightGray)),
             onPressed: () {
               phraseProvider.removePhrase(phraseId);
+
               int count = 0;
               Navigator.popUntil(context, (route) {
                 return count++ == 2;

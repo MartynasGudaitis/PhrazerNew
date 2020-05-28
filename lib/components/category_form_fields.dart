@@ -13,6 +13,7 @@ Widget buildCategoryFormInputField(
       margin: EdgeInsets.only(top: 20),
       child: TextFormField(
         cursorColor: Green,
+        textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(labelText: label),
         controller: controller,
         maxLength: 20,

@@ -24,13 +24,13 @@ class _PhrasesListItemState extends State<PhrasesListItem> {
                 color: LightGreen, borderRadius: BorderRadius.circular(14.0)),
             child: ListTile(
                 contentPadding: EdgeInsets.fromLTRB(16.0, 13.0, 16.0, 13.0),
-                title: Text(
+                title: SelectableText(
                   widget.phrase.phrase,
                   style: TextStyle(color: Colors.white),
                 ),
                 subtitle: Container(
                   padding: EdgeInsets.only(top: 10.0),
-                  child: Text(widget.phrase.translation,
+                  child: SelectableText(widget.phrase.translation,
                       style: TextStyle(
                           color: Colors.white, fontStyle: FontStyle.italic)),
                 ),

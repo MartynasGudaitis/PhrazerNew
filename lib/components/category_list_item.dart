@@ -10,27 +10,30 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        CircleAvatar(
-            radius: 25,
-            backgroundColor: (_status) ? Orange : LightGreen,
-            child: IconButton(
-              icon: Icon(
-                _icon,
-                color: (_status) ? LightGray : Green,
-              ),
-            )),
-        (_name != null)
-            ? Container(
-                margin: EdgeInsets.only(top: 10),
-                child: Text(
-                  _name,
-                  style: TextStyle(color: (_status) ? LightGray : Green),
+    return Container(
+      child: Column(
+        children: <Widget>[
+          CircleAvatar(
+              radius: 25,
+              backgroundColor: (_status) ? Orange : LightGreen,
+              child: IconButton(
+                icon: Icon(
+                  _icon,
+                  color: (_status) ? LightGray : Green,
                 ),
-              )
-            : Container(),
-      ],
+              )),
+          (_name != null)
+              ? Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    _name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: (_status) ? LightGray : Green),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 }

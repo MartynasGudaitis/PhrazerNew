@@ -22,7 +22,7 @@ List<CategoryIcon> category_icons = [
   CategoryIcon('local_pizza', Icons.local_pizza),
   CategoryIcon('fastfood', Icons.fastfood),
   CategoryIcon('local_bar', Icons.local_bar),
-  CategoryIcon('local_hotel', Icons.local_hotel),
+  CategoryIcon('home', Icons.home),
   CategoryIcon('local_hospital', Icons.local_hospital),
   CategoryIcon('local_mall', Icons.local_mall),
   CategoryIcon('local_movies', Icons.local_movies),
